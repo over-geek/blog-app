@@ -1,41 +1,14 @@
-<h1>This is a list of all Posts written by <%= @user.name %></h1>
+<div class="container">
+  <%= render partial: 'partials/user', object: @user %>
+</div>
 
-<div class="d-flex align-items-center mb-3 gap-3">
-  <img src="<%= @user.photo%>" alt="user_image" class="border p-5 border-5" />
-  <div class="border border-5 w-100 p-3">
-    <h2><%= @user.name %></h2>
-    <div class="d-flex justify-content-end">
-      <p>Number of posts: <%= @user.posts_counter %></p>
-    </div>
+<div class="container">
+  <%= render partial: 'partials/add_post_button', object: @user, as: :user %>
+  <div class="user_posts">
+    <%= render partial: 'partials/posts_comments', collection: @posts, as: :post %>
   </div>
 </div>
 
-<section>
-  <% @posts.each do |post| %>
-    <a href="<%= "/users/#{ @user.id }/posts/#{ post.id }" %>" class="text-decoration-none text-primary-emphasis">
-      <div class="border border-5 gap-3">
-        <h3>Post #<%= post.id %></h3>
-        <p><%= post.text %></p>
-
-        <div class="d-flex justify-content-end">
-          <span>Comments: <%= "#{ post.comments_counter || 0 }"%></span>
-          <span>, Likes: <%= "#{ post.likes_counter || 0 }"%></span>
-        </div>
-      </div>
-    </a>
-
-    <div class="border border-5 mt-3 mb-3">
-      <h4 class="mb-3">Comments</h4>
-      <% post.recent_comments.each do |comment| %>
-        <div class="mb-3">
-          <span><%= comment.user.name %>:</span>
-          <span> <%= comment.text %></span>
-        </div>  
-      <% end %>
-    </div>
-  <% end %>
-</section>
-
-<div class="text-center p-4">
- <a href="/posts/new" class="btn btn-outline-secondary rounded-pill m-2 text-decoration-none">Create new post</a>
+<div class="container">
+  <%= render partial: 'partials/pagination' %>
 </div>

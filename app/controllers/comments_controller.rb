@@ -1,25 +1,27 @@
 class CommentsController < ApplicationController
   def new
-    @post = Post.find(params[:post_id])
-    @comment = Comment.new
+    @post = find_post_by_id
+    @user = @post.author
+    @comment = @post.comments.new
   end
 
   def create
-    @comment = current_user.comments.new(comment_params)
-    @post = Post.find(params[:post_id])
-    @comment.post_id = @post.id
-    if @comment.save
-      flash[:success] = 'Comment successfully added!😎'
-      redirect_to "/users/#{current_user.id}/posts"
-    else
-      flash[:alert] = 'Comment not added!😢'
-      render :new, status: :unprocessable_entity
-    end
+    @post = find_post_by_id
+    @new_comment = @post.comments.new(comment_params)
+    @new_comment.author = current_user
+    result = @new_comment.save
+    render new unless result
+    flash[:success] = 'The comment of the post was created successfully!'
+    redirect_to user_post_path(@post.author, @post)
   end
 
   private
 
   def comment_params
     params.require(:comment).permit(:text)
+  end
+
+  def find_post_by_id
+    Post.find(params[:post_id])
   end
 end
