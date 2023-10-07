@@ -1,30 +1,25 @@
 class Post < ApplicationRecord
-  belongs_to :author, class_name: 'User'
-  has_many :comments
-  has_many :likes
+  # association with other models: User, Comment and Like
+  belongs_to :author, class_name: 'User', foreign_key: 'author_id_id'
+  has_many :comments, class_name: 'Comment', foreign_key: 'posts_id'
+  has_many :likes, class_name: 'Like', foreign_key: 'posts_id'
 
-  validates :title, presence: true, length: { maximum: 250 }
-  validates :comments_counter, numericality: { greater_than_or_equal_to: 0, only_integer: true }
-  validates :likes_counter, numericality: { greater_than_or_equal_to: 0, only_integer: true }
-
-  after_initialize do |post|
-    post.likes_counter ||= 0
-    post.comments_counter ||= 0
-  end
-
-  def update_author_posts_counter
-    author.update(posts_counter: author.posts.count)
-  end
-
-  def recent_comments
+  # custom query: the five most recent comments for a given post
+  def most_recent_comments
     comments.order(created_at: :desc).limit(5)
   end
 
-  def update_comments_counter
-    update(comments_counter: comments.count)
-  end
+  # attributes validations
+  validates :title, presence: true
+  validates :title, length: { maximum: 250 }
+  validates :comments_counter, numericality: { greater_than_or_equal_to: 0 }
+  validates :likes_counter, numericality: { greater_than_or_equal_to: 0 }
 
-  def update_likes_counter
-    update(likes_counter: likes.count)
+  # update the posts counter of a User
+  after_save :update_posts_counter_by_user
+  after_destroy :update_posts_counter_by_user
+
+  def update_posts_counter_by_user
+    author.update(posts_counter: author.posts.count)
   end
 end

@@ -1,13 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
-  let(:user) { User.create(name: 'Jane Doe', photo: 'photo url', bio: 'A developer from Ghana', posts_counter: 0) }
-  let(:post) do
-    Post.create(author: user, title: 'From zero to hero', text: 'Journey from no stack to full-stack',
-                comments_counter: 0, likes_counter: 2)
+  before :each do
+    @user = User.create(name: 'Peter Miller', bio: 'I am Peter Miller and I am a Frontend Developer')
+    @post = Post.create(author: @user, title: 'My first post about Frontend technologies',
+                        text: 'This is the first post of Peter Miller')
   end
 
-  subject do
-    Comment.create(post:, author_id: user, text: 'This is a comment')
+  describe '#update_comments_counter_by_post' do
+    it 'should update the comments_counter attribute of a post' do
+      comment_author = User.create(name: 'Frank Mendez', bio: 'I am Frank Mendez')
+      comment = Comment.create(post: @post, author: comment_author,
+                               text: 'This is the first comment on Peter Miller Post')
+
+      comment.update_comments_counter_by_post
+      expected_result = 1
+
+      expect(@post.comments_counter).to eq(expected_result)
+    end
   end
 end

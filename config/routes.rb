@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # Adding nested resources routes for users and posts
+  resources :users , only: [:index, :show] do
+    resources :posts, only: [:index, :new, :create, :show] do
+      post 'addlike', on: :member
+      delete 'deletelike', on: :member
+      resources :comments, only: [:new, :create]
+    end
+  end
 
   # Defines the root path route ("/")
-  # root "articles#index"
-   root "users#index"
-
-  resources :users, only: [:index, :show] do
-    resources :posts, only: [:index, :show]
-  end
+  root "users#index"
 end
