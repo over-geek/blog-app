@@ -1,13 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe Like, type: :model do
-  user = User.create(name: 'Jane Doe', photo: 'photo url', bio: 'A developer from Ghana', posts_counter: 0)
-  user2 = User.create(name: 'John Doe', photo: 'photo url', bio: 'A developer from Ghana', posts_counter: 0)
-  post = Post.create(author: user, title: 'Journey from no stack to full-stack', text: 'A post by user',
-                     comments_counter: 0, likes_counter: 0)
-  Like.create(post:, user_id: user2)
+  before :each do
+    author = User.create(name: 'Jhon Williams', bio: 'Hi! I am Jhon and I am a QA expert')
+    @post = Post.create(author:, title: 'My first post', text: 'This is the body of my first post')
+  end
 
-  it 'Update likes counter' do
-    expect(post.likes_counter).to eq(0)
+  describe '#update_likes_counter_by_post' do
+    it 'should update the likes_counter attribute of a post' do
+      like_author = User.create(name: 'Michael Brown', bio: 'Hi! I am Michael Brown')
+
+      first_like = Like.create(post: @post, author: like_author)
+      first_like.update_likes_counter_by_post
+
+      second_like = Like.create(post: @post, author: like_author)
+      second_like.update_likes_counter_by_post
+
+      expected_result = 2
+
+      expect(@post.likes_counter).to eq(expected_result)
+    end
   end
 end
