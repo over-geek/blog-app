@@ -1,12 +1,13 @@
 class CommentsController < ApplicationController
+  before_action :authenticate_user!, only: %i[new create]
+  before_action :find_post_by_id, only: %i[new create]
+
   def new
-    @post = find_post_by_id
     @user = @post.author
     @comment = @post.comments.new
   end
 
   def create
-    @post = find_post_by_id
     @new_comment = @post.comments.new(comment_params)
     @new_comment.author = current_user
     result = @new_comment.save
@@ -22,6 +23,9 @@ class CommentsController < ApplicationController
   end
 
   def find_post_by_id
-    Post.find(params[:post_id])
+    @post = Post.find(params[:post_id])
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = 'Error! Post not found'
+    redirect_to user_posts_path
   end
 end
