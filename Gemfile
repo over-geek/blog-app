@@ -9,6 +9,9 @@ gem 'rails', '~> 7.0.8'
 # Use devise as authentication library
 gem 'devise'
 
+# Use CanCanCan as an authorization library
+gem 'cancancan'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
 
