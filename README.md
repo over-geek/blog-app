@@ -12,7 +12,6 @@
   - [🛠 Built With](#built-with)
     - [Tech Stack](#tech-stack)
     - [Key Features](#key-features)
-  - [🚀 Live Demo](#live-demo)
 - [💻 Getting Started](#getting-started)
   - [Setup](#setup)
   - [Prerequisites](#prerequisites)
@@ -59,14 +58,6 @@
 - **Initialize your project with Git**
 - **Make sure that your project has Postgres database set up**
 - **Build your project schema**
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- LIVE DEMO -->
-
-## 🚀 Live Demo <a name="live-demo"></a>
-
-Not Deployed Yet.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -163,7 +154,7 @@ Example:
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](../../issues/).
+Feel free to check the [issues page](https://github.com/over-geek/blog-app/issues)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
